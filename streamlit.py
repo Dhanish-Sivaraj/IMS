@@ -162,12 +162,8 @@ def ai_resolution():
                 col1, col2 = st.columns(2)
 
                 with col1:
-                    if st.button("👍", key="thumbs_up"):
+                    if st.button("👍","👎", key="thumbs_up"):
                         st.session_state.feedback[st.session_state.selected_ticket] = "Useful"
-
-                with col2:
-                    if st.button("👎", key="thumbs_down"):
-                        st.session_state.feedback[st.session_state.selected_ticket] = "Not Useful"
 
                 # Show feedback status
                 if st.session_state.selected_ticket in st.session_state.feedback:
