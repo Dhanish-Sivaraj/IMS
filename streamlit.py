@@ -51,10 +51,13 @@ if "selected_ticket" not in st.session_state:
 if "resolution_steps" not in st.session_state:
     st.session_state.resolution_steps = None
 
-# ------------------ CUSTOM CSS (OPTION 1) ------------------ #
+# 🔥 Store feedback per ticket
+if "feedback" not in st.session_state:
+    st.session_state.feedback = {}
+
+# ------------------ CUSTOM CSS ------------------ #
 st.markdown("""
 <style>
-/* 🔥 Compact ticket buttons */
 div.stButton > button {
     padding: 4px 8px;
     font-size: 12px;
@@ -79,9 +82,8 @@ def ai_resolution():
     
             is_selected = st.session_state.selected_ticket == row["Ticket ID"]
     
-            # Highlight selected ticket
             if is_selected:
-                button_label = f" {row['Ticket ID']}"
+                button_label = f"🔵 {row['Ticket ID']}"
                 button_type = "primary"
             else:
                 button_label = row["Ticket ID"]
@@ -95,7 +97,6 @@ def ai_resolution():
             ):
                 st.session_state.selected_ticket = row["Ticket ID"]
     
-                # 🔥 Real-time resolution generation
                 with st.spinner("Analyzing issue..."):
                     time.sleep(1)
     
@@ -157,6 +158,28 @@ def ai_resolution():
 
                 for i, step in enumerate(st.session_state.resolution_steps, 1):
                     st.write(f"**Step {i}:** {step}")
+
+                # ----------- FEEDBACK ----------- #
+                st.subheader("Feedback")
+
+                col1, col2 = st.columns(2)
+
+                with col1:
+                    if st.button("👍", key="thumbs_up"):
+                        st.session_state.feedback[st.session_state.selected_ticket] = "Useful"
+
+                with col2:
+                    if st.button("👎", key="thumbs_down"):
+                        st.session_state.feedback[st.session_state.selected_ticket] = "Not Useful"
+
+                # Show feedback status
+                if st.session_state.selected_ticket in st.session_state.feedback:
+                    feedback = st.session_state.feedback[st.session_state.selected_ticket]
+
+                    if feedback == "Useful":
+                        st.success("Marked as Useful 👍")
+                    else:
+                        st.error("Marked as Not Useful 👎")
 
         else:
             st.info("Select a ticket")
