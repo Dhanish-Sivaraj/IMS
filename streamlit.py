@@ -51,7 +51,6 @@ if "selected_ticket" not in st.session_state:
 if "resolution_steps" not in st.session_state:
     st.session_state.resolution_steps = None
 
-# 🔥 Store feedback per ticket
 if "feedback" not in st.session_state:
     st.session_state.feedback = {}
 
@@ -59,7 +58,7 @@ if "feedback" not in st.session_state:
 st.markdown("""
 <style>
 
-/* 🔹 Compact buttons */
+/* Compact ticket buttons */
 div.stButton > button {
     padding: 4px 8px;
     font-size: 12px;
@@ -67,16 +66,35 @@ div.stButton > button {
     border-radius: 6px;
 }
 
-/* Selected (primary) button → Light Blue */
+/* Selected ticket (light blue) */
 div.stButton > button[kind="primary"] {
-    background-color: #E0F2FE !important;   /* light blue */
-    color: #0369A1 !important;             /* dark blue text */
+    background-color: #E0F2FE !important;
+    color: #0369A1 !important;
     border: 1px solid #38BDF8 !important;
 }
 
-/* 🔹 Hover effect */
-div.stButton > button:hover {
-    border: 1px solid #38BDF8;
+/* 👍 Green */
+div[data-testid="stButton"] button[key="thumbs_up"] {
+    background-color: #DCFCE7 !important;
+    color: #16A34A !important;
+    border: 1px solid #16A34A !important;
+    padding: 2px 6px;
+    font-size: 16px;
+}
+
+/* 👎 Red */
+div[data-testid="stButton"] button[key="thumbs_down"] {
+    background-color: #FEE2E2 !important;
+    color: #DC2626 !important;
+    border: 1px solid #DC2626 !important;
+    padding: 2px 6px;
+    font-size: 16px;
+}
+
+/* Reduce gap between feedback buttons */
+div[data-testid="column"] {
+    padding: 0px !important;
+    margin: 0px !important;
 }
 
 </style>
@@ -98,14 +116,12 @@ def ai_resolution():
             is_selected = st.session_state.selected_ticket == row["Ticket ID"]
     
             if is_selected:
-                button_label = f" {row['Ticket ID']}"
                 button_type = "primary"
             else:
-                button_label = row["Ticket ID"]
                 button_type = "secondary"
     
             if st.button(
-                button_label,
+                row["Ticket ID"],
                 use_container_width=True,
                 key=row["Ticket ID"],
                 type=button_type
@@ -119,19 +135,19 @@ def ai_resolution():
     
                     if "qlik sense reload" in issue:
                         steps = [
-                            "Check Qlik Management Console (QMC) reload task logs",
-                            "Verify data source connections (DB / APIs)",
-                            "Check script errors in load script",
-                            "Restart Qlik Engine & Scheduler services",
+                            "Check QMC reload task logs",
+                            "Verify data source connections",
+                            "Check script errors",
+                            "Restart Qlik services",
                             "Re-trigger reload task"
                         ]
     
                     elif "qlik site is down" in issue:
                         steps = [
-                            "Check server health (CPU/memory)",
-                            "Verify Qlik Proxy service",
-                            "Restart Qlik services",
-                            "Check DNS/network",
+                            "Check server health",
+                            "Verify Qlik Proxy",
+                            "Restart services",
+                            "Check network/DNS",
                             "Validate SSL"
                         ]
     
@@ -139,7 +155,7 @@ def ai_resolution():
                         steps = [
                             "Check cloud logs",
                             "Identify failing service",
-                            "Restart container/service",
+                            "Restart service",
                             "Validate configs",
                             "Monitor logs"
                         ]
@@ -166,7 +182,6 @@ def ai_resolution():
             st.write(f"**Ticket ID:** {ticket_data['Ticket ID']}")
             st.info(f"**Issue:** {ticket_data['Issue']}")
 
-            # ----------- AI RESOLUTION ----------- #
             if st.session_state.resolution_steps:
 
                 st.subheader("Resolution Steps")
@@ -174,15 +189,19 @@ def ai_resolution():
                 for i, step in enumerate(st.session_state.resolution_steps, 1):
                     st.write(f"**Step {i}:** {step}")
 
-                col1, col2, col3 = st.columns([1, 1, 6])
+                # ----------- FEEDBACK (INLINE 👍👎) ----------- #
+                st.markdown("### Feedback")
+
+                col1, col2, col3 = st.columns([1, 1, 10])
 
                 with col1:
                     if st.button("👍", key="thumbs_up"):
                         st.session_state.feedback[st.session_state.selected_ticket] = "Useful"
-                
+
                 with col2:
                     if st.button("👎", key="thumbs_down"):
                         st.session_state.feedback[st.session_state.selected_ticket] = "Not Useful"
+
         else:
             st.info("Select a ticket")
 
