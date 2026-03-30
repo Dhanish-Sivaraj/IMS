@@ -81,7 +81,7 @@ def ai_resolution():
     
             # Highlight selected ticket
             if is_selected:
-                button_label = f"🔵 {row['Ticket ID']}"
+                button_label = f" {row['Ticket ID']}"
                 button_type = "primary"
             else:
                 button_label = row["Ticket ID"]
@@ -153,13 +153,10 @@ def ai_resolution():
             # ----------- AI RESOLUTION ----------- #
             if st.session_state.resolution_steps:
 
-                st.subheader("🤖 AI Resolution Steps")
+                st.subheader("Resolution Steps")
 
                 for i, step in enumerate(st.session_state.resolution_steps, 1):
                     st.write(f"**Step {i}:** {step}")
-
-                st.subheader("📘 Known Fix")
-                st.success(ticket_data["Resolution"])
 
         else:
             st.info("Select a ticket")
