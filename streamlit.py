@@ -200,38 +200,45 @@ def ai_resolution():
 
     # ----------- RIGHT ----------- #
     with right_col:
-
+    
         if st.session_state.selected_ticket:
-
+    
             ticket_data = df[df["Ticket ID"] == st.session_state.selected_ticket].iloc[0]
-
-            st.subheader("Description")
-            st.markdown("### Opened:7:03:46")
+    
+            # Create two columns for Description header and timestamp
+            desc_col1, desc_col2 = st.columns([3, 1])
+            
+            with desc_col1:
+                st.subheader("Description")
+            
+            with desc_col2:
+                st.markdown("**Opened:** 7:03:46")
+            
             st.info(f" {ticket_data['Issue']}")
-
+    
             if st.session_state.resolution_steps:
-
+    
                 st.subheader("Resolution Steps")
-
+    
                 for i, step in enumerate(st.session_state.resolution_steps, 1):
                     st.write(f"**Step {i}:** {step}")
-
+    
                 # ----------- FEEDBACK (INLINE 👍👎) ----------- #
                 st.markdown("### Feedback")
-
+    
                 col1, col2, col3 = st.columns([1, 1, 15])
-
+    
                 with col1:
                     # Changed to green button with white emoji
                     if st.button("👍", key="thumbs_up"):
                         st.session_state.feedback[st.session_state.selected_ticket] = "Useful"
                         st.success("✅ Thank you for your feedback!")
-
+    
                 with col2:
                     if st.button("👎", key="thumbs_down"):
                         st.session_state.feedback[st.session_state.selected_ticket] = "Not Useful"
                         st.warning("📝 We'll work on improving this resolution!")
-
+    
         else:
             st.info("Select a ticket")
 
