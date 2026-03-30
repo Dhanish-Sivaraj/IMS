@@ -212,16 +212,27 @@ def ai_resolution():
                 st.subheader("Description")
             
             with desc_col2:
-                st.markdown("**Opened:** 17:03:46")
+                st.markdown("**Opened:** 7:03:46")
             
             st.info(f" {ticket_data['Issue']}")
     
             if st.session_state.resolution_steps:
     
-                st.subheader("Resolution Steps")
-    
+                # Create columns for Resolution header
+                res_col1, res_col2 = st.columns([3, 1])
+                
+                with res_col1:
+                    st.subheader("Resolution Steps")
+                
+                with res_col2:
+                    st.markdown("")  # Empty for alignment
+                
+                # Resolution steps in a blue info box
+                resolution_text = ""
                 for i, step in enumerate(st.session_state.resolution_steps, 1):
-                    st.write(f"**Step {i}:** {step}")
+                    resolution_text += f"**Step {i}:** {step}\n\n"
+                
+                st.info(resolution_text)
     
                 # ----------- FEEDBACK (INLINE 👍👎) ----------- #
                 st.markdown("### Feedback")
@@ -241,6 +252,5 @@ def ai_resolution():
     
         else:
             st.info("Select a ticket")
-
 # ------------------ APP ------------------ #
 ai_resolution()
