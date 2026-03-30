@@ -162,7 +162,7 @@ def ai_resolution():
 
             ticket_data = df[df["Ticket ID"] == st.session_state.selected_ticket].iloc[0]
 
-            st.subheader("📄 Ticket Details")
+            st.subheader("Ticket Details")
             st.write(f"**Ticket ID:** {ticket_data['Ticket ID']}")
             st.info(f"**Issue:** {ticket_data['Issue']}")
 
