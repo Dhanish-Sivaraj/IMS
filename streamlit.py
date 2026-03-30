@@ -83,7 +83,7 @@ def ai_resolution():
             is_selected = st.session_state.selected_ticket == row["Ticket ID"]
     
             if is_selected:
-                button_label = f"🔵 {row['Ticket ID']}"
+                button_label = f" {row['Ticket ID']}"
                 button_type = "primary"
             else:
                 button_label = row["Ticket ID"]
@@ -158,9 +158,6 @@ def ai_resolution():
 
                 for i, step in enumerate(st.session_state.resolution_steps, 1):
                     st.write(f"**Step {i}:** {step}")
-
-                # ----------- FEEDBACK ----------- #
-                st.subheader("Feedback")
 
                 col1, col2 = st.columns(2)
 
