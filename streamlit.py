@@ -60,7 +60,7 @@ def ai_resolution():
 
     # ----------- LEFT ----------- #
     with left_col:
-        st.markdown("### 🎫 Tickets")
+        st.markdown("### Incident Tickets")
     
         for _, row in df.iterrows():
     
