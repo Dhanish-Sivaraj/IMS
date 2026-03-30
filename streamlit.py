@@ -212,7 +212,7 @@ def ai_resolution():
                 st.subheader("Description")
             
             with desc_col2:
-                st.markdown("**Opened:** 7:03:46")
+                st.markdown("**Opened:** 17:03:46")
             
             st.info(f" {ticket_data['Issue']}")
     
