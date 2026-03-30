@@ -61,54 +61,69 @@ def ai_resolution():
     # ----------- LEFT ----------- #
     with left_col:
         st.markdown("### 🎫 Tickets")
-
+    
         for _, row in df.iterrows():
-            if st.button(row["Ticket ID"], use_container_width=True):
-
+    
+            is_selected = st.session_state.selected_ticket == row["Ticket ID"]
+    
+            # 🔥 Highlight style
+            if is_selected:
+                button_label = f"🔵 {row['Ticket ID']}"
+                button_type = "primary"   # Blue button
+            else:
+                button_label = row["Ticket ID"]
+                button_type = "secondary"
+    
+            if st.button(
+                button_label,
+                use_container_width=True,
+                key=row["Ticket ID"],
+                type=button_type
+            ):
                 st.session_state.selected_ticket = row["Ticket ID"]
-
+    
                 # 🔥 Real-time resolution generation
                 with st.spinner("Analyzing issue..."):
                     time.sleep(1)
-
+    
                     issue = row["Issue"].lower()
-
+    
                     if "qlik sense reload" in issue:
                         steps = [
                             "Check Qlik Management Console (QMC) reload task logs",
                             "Verify data source connections (DB / APIs)",
-                            "Check if any script error occurred in load script",
-                            "Restart Qlik Engine and Scheduler services",
-                            "Re-trigger reload task manually and monitor"
+                            "Check script errors in load script",
+                            "Restart Qlik Engine & Scheduler services",
+                            "Re-trigger reload task"
                         ]
-
+    
                     elif "qlik site is down" in issue:
                         steps = [
-                            "Check server status and CPU/memory usage",
+                            "Check server health (CPU/memory)",
                             "Verify Qlik Proxy service",
                             "Restart Qlik services",
-                            "Check network/DNS resolution",
-                            "Validate SSL certificate if applicable"
+                            "Check DNS/network",
+                            "Validate SSL"
                         ]
-
+    
                     elif "cloud run" in issue:
                         steps = [
-                            "Check cloud logs (GCP/AWS)",
+                            "Check cloud logs",
                             "Identify failing service",
-                            "Restart service/container",
-                            "Validate environment variables",
-                            "Monitor logs after restart"
+                            "Restart container/service",
+                            "Validate configs",
+                            "Monitor logs"
                         ]
-
+    
                     else:
                         steps = [
-                            "Check application logs",
-                            "Validate configuration",
+                            "Check logs",
+                            "Validate config",
                             "Restart service",
-                            "Verify connectivity",
-                            "Monitor after fix"
+                            "Check connectivity",
+                            "Monitor system"
                         ]
-
+    
                     st.session_state.resolution_steps = steps
 
     # ----------- RIGHT ----------- #
