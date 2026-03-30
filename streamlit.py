@@ -66,23 +66,35 @@ div.stButton > button {
     border-radius: 6px;
 }
 
-/* Selected ticket - light blue */
+/* Selected ticket (light blue) */
 div.stButton > button[kind="primary"] {
     background-color: #E0F2FE !important;
     color: #0369A1 !important;
     border: 1px solid #38BDF8 !important;
 }
 
-/* 👍 green text */
-button[kind="secondary"]:nth-of-type(1) {
+/* 👍 Green */
+div[data-testid="stButton"] button[key="thumbs_up"] {
+    background-color: #DCFCE7 !important;
     color: #16A34A !important;
-    font-weight: bold;
+    border: 1px solid #16A34A !important;
+    padding: 2px 6px;
+    font-size: 16px;
 }
 
-/* 👎 red text */
-button[kind="secondary"]:nth-of-type(2) {
+/* 👎 Red */
+div[data-testid="stButton"] button[key="thumbs_down"] {
+    background-color: #FEE2E2 !important;
     color: #DC2626 !important;
-    font-weight: bold;
+    border: 1px solid #DC2626 !important;
+    padding: 2px 6px;
+    font-size: 16px;
+}
+
+/* Reduce gap between feedback buttons */
+div[data-testid="column"] {
+    padding: 0px !important;
+    margin: 0px !important;
 }
 
 </style>
@@ -102,7 +114,11 @@ def ai_resolution():
         for _, row in df.iterrows():
     
             is_selected = st.session_state.selected_ticket == row["Ticket ID"]
-            button_type = "primary" if is_selected else "secondary"
+    
+            if is_selected:
+                button_type = "primary"
+            else:
+                button_type = "secondary"
     
             if st.button(
                 row["Ticket ID"],
@@ -173,27 +189,18 @@ def ai_resolution():
                 for i, step in enumerate(st.session_state.resolution_steps, 1):
                     st.write(f"**Step {i}:** {step}")
 
-                # ----------- FEEDBACK ----------- #
+                # ----------- FEEDBACK (INLINE 👍👎) ----------- #
                 st.markdown("### Feedback")
 
                 col1, col2, col3 = st.columns([1, 1, 10])
 
                 with col1:
-                    if st.button("👍 Useful"):
+                    if st.button("👍", key="thumbs_up"):
                         st.session_state.feedback[st.session_state.selected_ticket] = "Useful"
 
                 with col2:
-                    if st.button("👎 Not Useful"):
+                    if st.button("👎", key="thumbs_down"):
                         st.session_state.feedback[st.session_state.selected_ticket] = "Not Useful"
-
-                # Show feedback result
-                if st.session_state.selected_ticket in st.session_state.feedback:
-                    feedback = st.session_state.feedback[st.session_state.selected_ticket]
-
-                    if feedback == "Useful":
-                        st.success("Marked as Useful 👍")
-                    else:
-                        st.error("Marked as Not Useful 👎")
 
         else:
             st.info("Select a ticket")
