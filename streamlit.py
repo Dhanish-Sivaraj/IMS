@@ -58,12 +58,27 @@ if "feedback" not in st.session_state:
 # ------------------ CUSTOM CSS ------------------ #
 st.markdown("""
 <style>
+
+/* 🔹 Compact buttons */
 div.stButton > button {
     padding: 4px 8px;
     font-size: 12px;
     height: 35px;
     border-radius: 6px;
 }
+
+/* Selected (primary) button → Light Blue */
+div.stButton > button[kind="primary"] {
+    background-color: #E0F2FE !important;   /* light blue */
+    color: #0369A1 !important;             /* dark blue text */
+    border: 1px solid #38BDF8 !important;
+}
+
+/* 🔹 Hover effect */
+div.stButton > button:hover {
+    border: 1px solid #38BDF8;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
