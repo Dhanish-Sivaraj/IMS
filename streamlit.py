@@ -57,7 +57,7 @@ def ai_resolution():
 
     # ----------- LEFT: TICKETS ----------- #
     with left_col:
-        st.markdown("### 🎫 Available Tickets")
+        st.markdown("### Available Tickets")
 
         for i, row in df.iterrows():
             if st.button(
@@ -67,7 +67,7 @@ def ai_resolution():
             ):
                 st.session_state.selected_ticket = row["Ticket ID"]
 
-                # 🔥 Auto-generate AI resolution
+                #  Auto-generate AI resolution
                 with st.spinner("Generating AI resolution..."):
                     time.sleep(0.8)
 
@@ -107,18 +107,10 @@ def ai_resolution():
             # ----------- AUTO AI RESOLUTION ----------- #
             if st.session_state.resolution_data:
 
-                st.subheader("🤖 AI Suggested Resolution")
+                st.subheader("Suggested Resolution")
 
                 for i, step in enumerate(st.session_state.resolution_data["steps"], 1):
                     st.write(f"**Step {i}:** {step}")
-
-                st.metric(
-                    "📊 AI Confidence",
-                    f"{st.session_state.resolution_data['confidence'] * 100}%"
-                )
-
-                st.subheader("📘 Known Resolution")
-                st.success(ticket_data["Resolution"])
 
                 # ----------- FEEDBACK ----------- #
                 st.subheader("💬 Feedback")
@@ -136,17 +128,17 @@ def ai_resolution():
             st.markdown('</div>', unsafe_allow_html=True)
 
         else:
-            st.info("👈 Select a ticket to generate resolution")
+            st.info("Select a ticket to generate resolution")
 
 # ------------------ KNOWLEDGE BASE ------------------ #
 def knowledge_base():
-    st.title("📂 Ticket Knowledge Base")
+    st.title("Ticket Knowledge Base")
     st.dataframe(df, use_container_width=True)
 
 # ------------------ NAVIGATION ------------------ #
 pages = {
-    "🚀 Resolution Engine": ai_resolution,
-    "📂 Knowledge Base": knowledge_base
+    "Resolution Engine": ai_resolution,
+     "Knowledge Base": knowledge_base
 }
 
 st.sidebar.title("AI Support System")
