@@ -192,7 +192,7 @@ def ai_resolution():
                 # ----------- FEEDBACK (INLINE 👍👎) ----------- #
                 st.markdown("### Feedback")
 
-                col1, col2, col3 = st.columns([1, 1, 10])
+                col1, col2, col3 = st.columns([1, 1, 20])
 
                 with col1:
                     if st.button("👍", key="thumbs_up"):
