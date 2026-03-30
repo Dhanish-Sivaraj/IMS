@@ -73,10 +73,10 @@ div.stButton > button[kind="primary"] {
     border: 1px solid #38BDF8 !important;
 }
 
-/* 👍 Green */
+/* 👍 Green - Updated styling */
 div[data-testid="stButton"] button[key="thumbs_up"] {
-    background-color: #DCFCE7 !important;
-    color: #16A34A !important;
+    background-color: #22C55E !important;
+    color: white !important;
     border: 1px solid #16A34A !important;
     padding: 2px 6px;
     font-size: 16px;
@@ -91,10 +91,37 @@ div[data-testid="stButton"] button[key="thumbs_down"] {
     font-size: 16px;
 }
 
+/* Hover effect for green button */
+div[data-testid="stButton"] button[key="thumbs_up"]:hover {
+    background-color: #16A34A !important;
+    border-color: #15803D !important;
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+}
+
+/* Hover effect for red button */
+div[data-testid="stButton"] button[key="thumbs_down"]:hover {
+    background-color: #FECACA !important;
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+}
+
 /* Reduce gap between feedback buttons */
 div[data-testid="column"] {
     padding: 0px !important;
     margin: 0px !important;
+}
+
+/* Add a subtle animation for feedback */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+div[data-testid="stButton"] button[key="thumbs_up"]:active,
+div[data-testid="stButton"] button[key="thumbs_down"]:active {
+    animation: pulse 0.2s ease-in-out;
 }
 
 </style>
@@ -178,9 +205,8 @@ def ai_resolution():
 
             ticket_data = df[df["Ticket ID"] == st.session_state.selected_ticket].iloc[0]
 
-            st.subheader("Ticket Details")
-            st.write(f"**Ticket ID:** {ticket_data['Ticket ID']}")
-            st.info(f"**Issue:** {ticket_data['Issue']}")
+            st.subheader("Description")
+            st.info(f" {ticket_data['Issue']}")
 
             if st.session_state.resolution_steps:
 
@@ -192,15 +218,18 @@ def ai_resolution():
                 # ----------- FEEDBACK (INLINE 👍👎) ----------- #
                 st.markdown("### Feedback")
 
-                col1, col2, col3 = st.columns([1, 1, 10])
+                col1, col2, col3 = st.columns([1, 1, 15])
 
                 with col1:
+                    # Changed to green button with white emoji
                     if st.button("👍", key="thumbs_up"):
                         st.session_state.feedback[st.session_state.selected_ticket] = "Useful"
+                        st.success("✅ Thank you for your feedback!")
 
                 with col2:
                     if st.button("👎", key="thumbs_down"):
                         st.session_state.feedback[st.session_state.selected_ticket] = "Not Useful"
+                        st.warning("📝 We'll work on improving this resolution!")
 
         else:
             st.info("Select a ticket")
