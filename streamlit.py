@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import time
-from datetime import datetime
 
 st.set_page_config(layout="wide")
 
@@ -54,9 +53,6 @@ if "resolution_steps" not in st.session_state:
 
 if "feedback" not in st.session_state:
     st.session_state.feedback = {}
-
-if "resolution_time" not in st.session_state:
-    st.session_state.resolution_time = None
 
 # ------------------ CUSTOM CSS ------------------ #
 st.markdown("""
@@ -128,19 +124,6 @@ div[data-testid="stButton"] button[key="thumbs_down"]:active {
     animation: pulse 0.2s ease-in-out;
 }
 
-/* Timestamp styling */
-.timestamp {
-    font-family: monospace;
-    font-size: 14px;
-    font-weight: 500;
-    color: #4B5563;
-    background-color: #F3F4F6;
-    padding: 6px 12px;
-    border-radius: 6px;
-    display: inline-block;
-    border: 1px solid #E5E7EB;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -171,8 +154,6 @@ def ai_resolution():
                 type=button_type
             ):
                 st.session_state.selected_ticket = row["Ticket ID"]
-                # Store the timestamp when resolution is generated
-                st.session_state.resolution_time = datetime.now()
     
                 with st.spinner("Analyzing issue..."):
                     time.sleep(1)
@@ -225,6 +206,7 @@ def ai_resolution():
             ticket_data = df[df["Ticket ID"] == st.session_state.selected_ticket].iloc[0]
 
             st.subheader("Description")
+            st.markdown("### Opened:7:03:46")
             st.info(f" {ticket_data['Issue']}")
 
             if st.session_state.resolution_steps:
@@ -234,10 +216,11 @@ def ai_resolution():
                 for i, step in enumerate(st.session_state.resolution_steps, 1):
                     st.write(f"**Step {i}:** {step}")
 
-                # ----------- FEEDBACK WITH TIMESTAMP ----------- #
-                # Create columns for feedback buttons and timestamp
-                col1, col2, col3, col4 = st.columns([1, 1, 2, 13])
-                
+                # ----------- FEEDBACK (INLINE 👍👎) ----------- #
+                st.markdown("### Feedback")
+
+                col1, col2, col3 = st.columns([1, 1, 15])
+
                 with col1:
                     # Changed to green button with white emoji
                     if st.button("👍", key="thumbs_up"):
@@ -248,13 +231,6 @@ def ai_resolution():
                     if st.button("👎", key="thumbs_down"):
                         st.session_state.feedback[st.session_state.selected_ticket] = "Not Useful"
                         st.warning("📝 We'll work on improving this resolution!")
-                
-                with col3:
-                    # Display timestamp if available
-                    if st.session_state.resolution_time:
-                        # Format time as HH:MM:SS
-                        timestamp_formatted = st.session_state.resolution_time.strftime("%H:%M:%S")
-                        st.markdown(f'<div class="timestamp">{timestamp_formatted}</div>', unsafe_allow_html=True)
 
         else:
             st.info("Select a ticket")
