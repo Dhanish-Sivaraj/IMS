@@ -73,37 +73,36 @@ div.stButton > button[kind="primary"] {
     border: 1px solid #38BDF8 !important;
 }
 
-/* 👍 Green - Updated styling */
+/* Thumbs up emoji color - Green */
 div[data-testid="stButton"] button[key="thumbs_up"] {
-    background-color: #22C55E !important;
-    color: white !important;
-    border: 1px solid #16A34A !important;
+    color: #16A34A !important;
+    background-color: transparent !important;
+    border: none !important;
+    font-size: 20px !important;
     padding: 2px 6px;
-    font-size: 16px;
 }
 
-/* 👎 Red */
+/* Thumbs down emoji color - Red */
 div[data-testid="stButton"] button[key="thumbs_down"] {
-    background-color: #FEE2E2 !important;
     color: #DC2626 !important;
-    border: 1px solid #DC2626 !important;
+    background-color: transparent !important;
+    border: none !important;
+    font-size: 20px !important;
     padding: 2px 6px;
-    font-size: 16px;
 }
 
-/* Hover effect for green button */
+/* Hover effect for thumbs up */
 div[data-testid="stButton"] button[key="thumbs_up"]:hover {
-    background-color: #16A34A !important;
-    border-color: #15803D !important;
-    transform: scale(1.05);
-    transition: all 0.2s ease;
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+    background-color: transparent !important;
 }
 
-/* Hover effect for red button */
+/* Hover effect for thumbs down */
 div[data-testid="stButton"] button[key="thumbs_down"]:hover {
-    background-color: #FECACA !important;
-    transform: scale(1.05);
-    transition: all 0.2s ease;
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+    background-color: transparent !important;
 }
 
 /* Reduce gap between feedback buttons */
