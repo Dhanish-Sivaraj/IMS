@@ -51,6 +51,19 @@ if "selected_ticket" not in st.session_state:
 if "resolution_steps" not in st.session_state:
     st.session_state.resolution_steps = None
 
+# ------------------ CUSTOM CSS (OPTION 1) ------------------ #
+st.markdown("""
+<style>
+/* 🔥 Compact ticket buttons */
+div.stButton > button {
+    padding: 4px 8px;
+    font-size: 12px;
+    height: 35px;
+    border-radius: 6px;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # ------------------ UI ------------------ #
 def ai_resolution():
 
@@ -66,10 +79,10 @@ def ai_resolution():
     
             is_selected = st.session_state.selected_ticket == row["Ticket ID"]
     
-            # 🔥 Highlight style
+            # Highlight selected ticket
             if is_selected:
                 button_label = f"🔵 {row['Ticket ID']}"
-                button_type = "primary"   # Blue button
+                button_type = "primary"
             else:
                 button_label = row["Ticket ID"]
                 button_type = "secondary"
