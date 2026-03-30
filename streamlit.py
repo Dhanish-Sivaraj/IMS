@@ -66,29 +66,23 @@ div.stButton > button {
     border-radius: 6px;
 }
 
-/* Selected ticket (light blue) */
+/* Selected ticket - light blue */
 div.stButton > button[kind="primary"] {
     background-color: #E0F2FE !important;
     color: #0369A1 !important;
     border: 1px solid #38BDF8 !important;
 }
 
-/* Feedback buttons styling (use position-based targeting) */
-
-/* 👍 button */
-div.row-widget.stButton:nth-of-type(1) button {
-    background-color: #DCFCE7 !important;
+/* 👍 green text */
+button[kind="secondary"]:nth-of-type(1) {
     color: #16A34A !important;
-    border: 1px solid #16A34A !important;
-    padding: 4px 6px;
+    font-weight: bold;
 }
 
-/* 👎 button */
-div.row-widget.stButton:nth-of-type(2) button {
-    background-color: #FEE2E2 !important;
+/* 👎 red text */
+button[kind="secondary"]:nth-of-type(2) {
     color: #DC2626 !important;
-    border: 1px solid #DC2626 !important;
-    padding: 4px 6px;
+    font-weight: bold;
 }
 
 </style>
@@ -185,14 +179,14 @@ def ai_resolution():
                 col1, col2, col3 = st.columns([1, 1, 10])
 
                 with col1:
-                    if st.button("👍"):
+                    if st.button("👍 Useful"):
                         st.session_state.feedback[st.session_state.selected_ticket] = "Useful"
 
                 with col2:
-                    if st.button("👎"):
+                    if st.button("👎 Not Useful"):
                         st.session_state.feedback[st.session_state.selected_ticket] = "Not Useful"
 
-                # Show feedback status
+                # Show feedback result
                 if st.session_state.selected_ticket in st.session_state.feedback:
                     feedback = st.session_state.feedback[st.session_state.selected_ticket]
 
