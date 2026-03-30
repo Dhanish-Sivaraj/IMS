@@ -159,21 +159,15 @@ def ai_resolution():
                 for i, step in enumerate(st.session_state.resolution_steps, 1):
                     st.write(f"**Step {i}:** {step}")
 
-                col1, col2 = st.columns(2)
+                col1, col2, col3 = st.columns([1, 1, 6])
 
                 with col1:
-                    if st.button("👍","👎", key="thumbs_up"):
+                    if st.button("👍", key="thumbs_up"):
                         st.session_state.feedback[st.session_state.selected_ticket] = "Useful"
-
-                # Show feedback status
-                if st.session_state.selected_ticket in st.session_state.feedback:
-                    feedback = st.session_state.feedback[st.session_state.selected_ticket]
-
-                    if feedback == "Useful":
-                        st.success("Marked as Useful 👍")
-                    else:
-                        st.error("Marked as Not Useful 👎")
-
+                
+                with col2:
+                    if st.button("👎", key="thumbs_down"):
+                        st.session_state.feedback[st.session_state.selected_ticket] = "Not Useful"
         else:
             st.info("Select a ticket")
 
