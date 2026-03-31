@@ -58,29 +58,27 @@ if "feedback" not in st.session_state:
 st.markdown("""
 <style>
 
-/* Default ticket button style */
+/* Ticket buttons = blue box like st.info */
 div.stButton > button {
-    background-color: #F1F5F9 !important;   /* light grey */
-    color: #0F172A !important;
-    border: 1px solid #CBD5F5 !important;
-    border-radius: 8px !important;
-    padding: 6px 10px !important;
-    font-size: 13px !important;
-    height: 38px;
-    transition: all 0.2s ease;
+    background-color: #E0F2FE !important;   /* SAME blue as st.info */
+    color: #075985 !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 10px !important;
+    height: 45px !important;
+    font-size: 14px !important;
+    text-align: left !important;
 }
 
 /* Hover effect */
 div.stButton > button:hover {
-    background-color: #E2E8F0 !important;
-    transform: scale(1.02);
+    background-color: #BAE6FD !important;
 }
 
-/* Selected ticket (highlight) */
+/* Selected ticket (darker blue) */
 div.stButton > button[kind="primary"] {
-    background-color: #2563EB !important;   /* blue */
+    background-color: #2563EB !important;
     color: white !important;
-    border: 1px solid #1D4ED8 !important;
 }
 
 </style>
