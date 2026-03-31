@@ -118,135 +118,76 @@ def ai_resolution():
 
     # ----------- LEFT ----------- #
     with left_col:
-    st.subheader("Incident Tickets")
-
-    # Create a box container (same feel as st.info)
-    with st.container():
-        st.markdown("""
-        <div style="
-            border:1px solid #E5E7EB;
-            border-radius:10px;
-            padding:10px;
-            background-color:#F9FAFB;
-        ">
-        """, unsafe_allow_html=True)
-
-        for _, row in df.iterrows():
-
-            is_selected = st.session_state.selected_ticket == row["Ticket ID"]
-
-            button_type = "primary" if is_selected else "secondary"
-
-            if st.button(
-                row["Ticket ID"],
-                use_container_width=True,
-                key=row["Ticket ID"],
-                type=button_type
-            ):
-                st.session_state.selected_ticket = row["Ticket ID"]
-
-                with st.spinner("Analyzing issue..."):
-                    time.sleep(1)
-
-                    issue = row["Issue"].lower()
-
-                    if "qlik sense reload" in issue:
-                        steps = [
-                            "Check QMC reload task logs",
-                            "Verify data source connections",
-                            "Check script errors",
-                            "Restart Qlik services",
-                            "Re-trigger reload task"
-                        ]
-
-                    elif "qlik site is down" in issue:
-                        steps = [
-                            "Check server health",
-                            "Verify Qlik Proxy",
-                            "Restart services",
-                            "Check network/DNS",
-                            "Validate SSL"
-                        ]
-
-                    elif "cloud run" in issue:
-                        steps = [
-                            "Check cloud logs",
-                            "Identify failing service",
-                            "Restart service",
-                            "Validate configs",
-                            "Monitor logs"
-                        ]
-
-                    else:
-                        steps = [
-                            "Check logs",
-                            "Validate config",
-                            "Restart service",
-                            "Check connectivity",
-                            "Monitor system"
-                        ]
-
-                    st.session_state.resolution_steps = steps
-
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.subheader("Incident Tickets")
     
-            is_selected = st.session_state.selected_ticket == row["Ticket ID"]
+        # Box container
+        with st.container():
+            st.markdown("""
+            <div style="
+                border:1px solid #E5E7EB;
+                border-radius:10px;
+                padding:10px;
+                background-color:#F9FAFB;
+            ">
+            """, unsafe_allow_html=True)
     
-            if is_selected:
-                button_type = "primary"
-            else:
-                button_type = "secondary"
+            for _, row in df.iterrows():
     
-            if st.button(
-                row["Ticket ID"],
-                use_container_width=True,
-                key=row["Ticket ID"],
-                type=button_type
-            ):
-                st.session_state.selected_ticket = row["Ticket ID"]
+                is_selected = st.session_state.selected_ticket == row["Ticket ID"]
+                button_type = "primary" if is_selected else "secondary"
     
-                with st.spinner("Analyzing issue..."):
-                    time.sleep(1)
+                if st.button(
+                    row["Ticket ID"],
+                    use_container_width=True,
+                    key=row["Ticket ID"],
+                    type=button_type
+                ):
+                    st.session_state.selected_ticket = row["Ticket ID"]
     
-                    issue = row["Issue"].lower()
+                    with st.spinner("Analyzing issue..."):
+                        time.sleep(1)
     
-                    if "qlik sense reload" in issue:
-                        steps = [
-                            "Check QMC reload task logs",
-                            "Verify data source connections",
-                            "Check script errors",
-                            "Restart Qlik services",
-                            "Re-trigger reload task"
-                        ]
+                        issue = row["Issue"].lower()
     
-                    elif "qlik site is down" in issue:
-                        steps = [
-                            "Check server health",
-                            "Verify Qlik Proxy",
-                            "Restart services",
-                            "Check network/DNS",
-                            "Validate SSL"
-                        ]
+                        if "qlik sense reload" in issue:
+                            steps = [
+                                "Check QMC reload task logs",
+                                "Verify data source connections",
+                                "Check script errors",
+                                "Restart Qlik services",
+                                "Re-trigger reload task"
+                            ]
     
-                    elif "cloud run" in issue:
-                        steps = [
-                            "Check cloud logs",
-                            "Identify failing service",
-                            "Restart service",
-                            "Validate configs",
-                            "Monitor logs"
-                        ]
+                        elif "qlik site is down" in issue:
+                            steps = [
+                                "Check server health",
+                                "Verify Qlik Proxy",
+                                "Restart services",
+                                "Check network/DNS",
+                                "Validate SSL"
+                            ]
     
-                    else:
-                        steps = [
-                            "Check logs",
-                            "Validate config",
-                            "Restart service",
-                            "Check connectivity",
-                            "Monitor system"
-                        ]
+                        elif "cloud run" in issue:
+                            steps = [
+                                "Check cloud logs",
+                                "Identify failing service",
+                                "Restart service",
+                                "Validate configs",
+                                "Monitor logs"
+                            ]
     
-                    st.session_state.resolution_steps = steps
+                        else:
+                            steps = [
+                                "Check logs",
+                                "Validate config",
+                                "Restart service",
+                                "Check connectivity",
+                                "Monitor system"
+                            ]
+    
+                        st.session_state.resolution_steps = steps
+    
+            st.markdown("</div>", unsafe_allow_html=True)
 
     # ----------- RIGHT ----------- #
     with right_col:
